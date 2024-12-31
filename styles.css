@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 :root {
-    --bg-color: #f0f0f0;
-    --text-color: #333;
-    --item-bg: #fff;
-    --item-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --bg-color: #0a0a1f;
+    --text-color: #ffffff;
+    --item-bg: rgba(255, 255, 255, 0.1);
+    --gradient-text: linear-gradient(45deg, #FF6B6B, #4ECDC4, #9D50BB);
 }
 
 .dark {
@@ -55,34 +55,55 @@ h1 {
 
 .countdown-item {
     background: var(--item-bg);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    min-width: 100px;
-    box-shadow: var(--item-shadow);
-    transition: transform 0.3s;
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 2rem 3rem;
+    margin: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.3),
+        inset 0 0 32px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .countdown-item:hover {
-    transform: scale(1.05);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 15px 45px rgba(31, 38, 135, 0.4),
+        inset 0 0 32px rgba(255, 255, 255, 0.1);
 }
 
 .countdown-value {
-    font-size: 2.5rem;
-    font-weight: bold;
-    display: block;
+    font-size: 5rem;
+    font-weight: 800;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    letter-spacing: 2px;
 }
 
 .countdown-label {
-    font-size: 0.9rem;
-    color: #888;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 1rem;
+    font-weight: 500;
 }
 
 .new-year-message {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-top: 2rem;
-    animation: bounce 1s infinite alternate;
-    color: #ffd700;
+    font-size: 6rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #FFD700, #FF69B4, #4ECDC4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 3s ease infinite;
+    padding: 2rem;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
 }
 
 .hidden {
@@ -92,6 +113,21 @@ h1 {
 @keyframes bounce {
     from { transform: translateY(0); }
     to { transform: translateY(-20px); }
+}
+
+@keyframes neonGlow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6;
+    }
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .theme-toggle {
@@ -141,9 +177,10 @@ canvas {
     left: 0;
     margin: 0;
     padding: 0;
-    background: #4e54c8;
+    background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
     overflow: hidden;
     z-index: -1; /* Ensure it stays behind the countdown */
+    animation: gradientBG 15s ease infinite;
 }
 
 .background li {
@@ -152,7 +189,10 @@ canvas {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     animation: animate 19s linear infinite;
 }
 
@@ -319,4 +359,42 @@ canvas {
     bottom: -70px;
     animation-delay: 84s;
 }
-/* Repeat for the rest of the `nth-child` selectors as you provided */
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.8); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+.fade-in {
+    animation: fadeIn 1s forwards;
+}
+
+@media (max-width: 768px) {
+    .countdown-value {
+        font-size: 3rem;
+    }
+    
+    .countdown-item {
+        padding: 1.5rem 2rem;
+    }
+    
+    .new-year-message {
+        font-size: 4rem;
+    }
+}

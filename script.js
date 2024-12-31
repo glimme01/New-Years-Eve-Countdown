@@ -13,7 +13,7 @@ fireworksCanvas.width = window.innerWidth;
 fireworksCanvas.height = window.innerHeight;
 
 // Set the target date for New Year's Eve (December 31st, 2024 at 11:59:59 PM)
-const targetDate = new Date(2024, 11, 31, 23, 59, 59);
+const targetDate = new Date(2024, 11, 31, 10, 16, 1);
 
 // Countdown logic
 function updateCountdown() {
@@ -21,24 +21,42 @@ function updateCountdown() {
     const timeRemaining = targetDate - now;
 
     if (timeRemaining <= 0) {
+        // Hide countdown completely
         countdownElement.style.display = 'none';
+        
+        // Show new year message with fireworks
         newYearMessage.classList.remove('hidden');
-        newYearMessage.textContent = "Frohes neues Jahr 2025! 🎉"; // New Year's message
+        newYearMessage.classList.add('fade-in');
+        newYearMessage.textContent = "Frohes neues! 🎉";
+        
+        // Start fireworks animation
         startFireworks();
-    } else {
-        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+        
+        // Stop the interval since countdown is done
+        clearInterval(countdownInterval);
+        return;
+    }
 
-        daysElement.textContent = days.toString().padStart(2, '0');
-        hoursElement.textContent = hours.toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-        secondsElement.textContent = seconds.toString().padStart(2, '0');
+    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+    daysElement.textContent = days.toString().padStart(2, '0');
+    hoursElement.textContent = hours.toString().padStart(2, '0');
+    minutesElement.textContent = minutes.toString().padStart(2, '0');
+    secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+    if (timeRemaining <= 10000) { // Last 10 seconds
+        document.querySelectorAll('.countdown-value').forEach(el => {
+            el.style.animation = 'pulse 0.5s infinite';
+        });
+        
     }
 }
 
-setInterval(updateCountdown, 1000);
+// Store interval ID to clear it later
+const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // Theme toggle
@@ -79,12 +97,15 @@ class Particle {
 
 let particles = [];
 
+// Enhance fireworks for finale
 function createFirework() {
     const x = Math.random() * fireworksCanvas.width;
     const y = Math.random() * fireworksCanvas.height;
-    const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#gold'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
 
-    for (let i = 0; i < 50; i++) {
+    // Create more particles for bigger fireworks
+    for (let i = 0; i < 100; i++) {
         particles.push(new Particle(x, y, color));
     }
 }
@@ -110,6 +131,10 @@ function animateFireworks() {
 }
 
 function startFireworks() {
+    // Create initial burst of fireworks
+    for (let i = 0; i < 10; i++) {
+        setTimeout(() => createFirework(), i * 300);
+    }
     animateFireworks();
 }
 
