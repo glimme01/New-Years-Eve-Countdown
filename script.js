@@ -13,7 +13,7 @@ fireworksCanvas.width = window.innerWidth;
 fireworksCanvas.height = window.innerHeight;
 
 // Set the target date for New Year's Eve (December 31st, 2024 at 11:59:59 PM)
-const targetDate = new Date(2024, 11, 31, 23, 59, 59);
+const targetDate = new Date(2025, 11, 31, 23, 59, 59);
 
 // Countdown logic
 function updateCountdown() {
